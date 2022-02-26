@@ -36,7 +36,7 @@ def main():
     Owner = st.number_input("The number of owners the car had previously ?",0,4,step=1, key='owner')
     Mileage = st.number_input("The current mileage of the car ?",5,50,step=5, key='mileage')
     Engine_Capacity = st.number_input("What is the engine capacity ?",800,5000,step=100, key='capacity')
-    Max_Power = st.number_input("What is the maximum power ?",key='max_power')
+    Max_Power = st.number_input("What is the maximum power(in bhp) ?",37,step=10,key='max_power')
     Seats = st.number_input("How many seats ?",4,10,step=1,key='seats')
 
 
