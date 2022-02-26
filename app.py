@@ -1,4 +1,6 @@
 import streamlit as st
+import requests
+from streamlit_lottie import st_lottie 
 import pickle
 model = pickle.load(open('actual.pkl','rb'))
 
@@ -7,13 +9,15 @@ def main():
     Fuel_Type=0
     Seller_Type=0
     Transmission_Type=0
-    st.title("Car Bechoo 🚗")
-    st.markdown("##### Are you planning to sell your car !?\n##### Evaluate the price for free! ")
-    st.write('')
-    st.write('')
+    lcol,rcol = st.columns(2)
+    with lcol:
+        st.title("Car Bechoo")
+        st.markdown("##### Are you planning to sell your car ?\n##### Evaluate the price for free! ")
+    with rcol:
+        st_lottie(lottie_coding,height=300)
     Model_Name = st.text_input("Enter the name of the model: ","Wagon R",key='model')
-    Year = st.number_input('In which year car was purchased ?',1990, 2020, step=1, key ='year')
-    Kms_Driven = st.number_input('What is distance completed by the car in Kilometers ?', 0.00, 500000.00, step=500.00, key ='driven')
+    Year = st.number_input('In which year car was purchased ?',2005, 2020, step=1, key ='year')
+    Kms_Driven = st.number_input('What is distance completed by the car in Kilometers ?', 20000.00, 500000.00, step=500.00, key ='driven')
     Fuel_Type_Form = st.selectbox('What is the fuel type of the car ?',('Petrol','Diesel', 'CNG'), key='fuel')
     if(Fuel_Type_Form=='Petrol'):
         Fuel_Type=3
@@ -31,11 +35,11 @@ def main():
         Transmission_Type=1
     else:
         Transmission_Type=0
-    Owner = st.number_input("The number of owners the car had previously ?",0,4,step=1, key='owner')
-    Mileage = st.number_input("The current mileage of the car ?",5,50,step=5, key='mileage')
-    Engine_Capacity = st.number_input("What is the engine capacity ?",800,5000,step=100, key='capacity')
-    Max_Power = st.number_input("What is the maximum power(in bhp) ?",37,step=10,key='max_power')
-    Seats = st.number_input("How many seats ?",4,10,step=1,key='seats')
+    Owner = st.number_input("The number of owners the car had previously ?",1,4,step=1, key='owner')
+    Mileage = st.number_input("The current mileage of the car ?",10,50,step=5, key='mileage')
+    Engine_Capacity = st.number_input("What is the engine capacity ?",1248,5000,step=100, key='capacity')
+    Max_Power = st.number_input("What is the maximum power(in bhp) ?",64,step=10,key='max_power')
+    Seats = st.number_input("How many seats ?",5,10,step=1,key='seats')
 
 
     if st.button("Estimate Price", key='predict'):
@@ -45,15 +49,21 @@ def main():
             prediction = Model.predict(user_input)
             output = round(prediction[0])
             if output<0:
-                st.warning("You will be not able to sell this car !!")
+                st.warning("You will be not able to sell this car !")
             else:
-                st.success("You can sell the car for {} rupees ! 🙌".format(output))
+                st.success("You can sell the car for {} rupees !".format(output))
         except:
             st.warning("Error Encountered!")
             
-
+def load_lottieurl(url):
+    r = requests.get(url)
+    if r.status_code!=200:
+        return None
+    return r.json()
 
 
 if __name__ == "__main__":
     st.set_page_config("Car Bechoo")
+    lottie_coding = load_lottieurl("https://assets10.lottiefiles.com/packages/lf20_ztrluajh.json")
+    
     main()
