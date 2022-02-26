@@ -1,7 +1,5 @@
 import streamlit as st
 import pickle
-import locale
-locale.setlocale(locale.LC_MONETARY, 'en_IN')
 model = pickle.load(open('actual.pkl','rb'))
 
 
@@ -13,7 +11,7 @@ def main():
     st.markdown("##### Are you planning to sell your car !?\n##### Evaluate the price for free! ")
     st.write('')
     st.write('')
-    Model_Name = st.text_input("Enter the name of the model: ",key='model')
+    Model_Name = st.text_input("Enter the name of the model: ","Wagon R",key='model')
     Year = st.number_input('In which year car was purchased ?',1990, 2020, step=1, key ='year')
     Kms_Driven = st.number_input('What is distance completed by the car in Kilometers ?', 0.00, 500000.00, step=500.00, key ='driven')
     Fuel_Type_Form = st.selectbox('What is the fuel type of the car ?',('Petrol','Diesel', 'CNG'), key='fuel')
