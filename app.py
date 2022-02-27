@@ -1,7 +1,9 @@
 import streamlit as st
 import requests
-from streamlit_lottie import st_lottie 
+from streamlit_lottie import st_lottie
+import locale
 import pickle
+locale.setlocale(locale.LC_MONETARY, 'en_IN')
 model = pickle.load(open('actual.pkl','rb'))
 
 
@@ -14,10 +16,10 @@ def main():
         st.title("Car Bechoo")
         st.markdown("##### Are you planning to sell your car ?\n##### Evaluate the price for free! ")
     with rcol:
-        st_lottie(lottie_coding,height=300)
+        st_lottie(car_logo,height=300)
     Model_Name = st.text_input("Enter the name of the model: ","Wagon R",key='model')
     Year = st.number_input('In which year car was purchased ?',2005, 2020, step=1, key ='year')
-    Kms_Driven = st.number_input('What is distance completed by the car in Kilometers ?', 20000.00, 500000.00, step=500.00, key ='driven')
+    Kms_Driven = st.number_input('What is distance completed by the car in Kilometers ?', 1000.00, 500000.00, step=500.00, key ='driven')
     Fuel_Type_Form = st.selectbox('What is the fuel type of the car ?',('Petrol','Diesel', 'CNG'), key='fuel')
     if(Fuel_Type_Form=='Petrol'):
         Fuel_Type=3
@@ -36,9 +38,9 @@ def main():
     else:
         Transmission_Type=0
     Owner = st.number_input("The number of owners the car had previously ?",1,4,step=1, key='owner')
-    Mileage = st.number_input("The current mileage of the car ?",10,50,step=5, key='mileage')
-    Engine_Capacity = st.number_input("What is the engine capacity ?",1248,5000,step=100, key='capacity')
-    Max_Power = st.number_input("What is the maximum power(in bhp) ?",64,step=10,key='max_power')
+    Mileage = st.number_input("The current mileage of the car(in km/L) ?",8,50,step=5, key='mileage')
+    Engine_Capacity = st.number_input("What is the engine capacity(in CC) ?",800,5000,step=100, key='capacity')
+    Max_Power = st.number_input("What is the maximum power(in bhp) ?",37,step=10,key='max_power')
     Seats = st.number_input("How many seats ?",5,10,step=1,key='seats')
 
 
@@ -51,7 +53,12 @@ def main():
             if output<0:
                 st.warning("You will be not able to sell this car !")
             else:
-                st.success("You can sell the car for {} rupees !".format(output))
+                lcol,rcol = st.columns(2)
+                with lcol:
+                    st.header("You can sell the car for {} rupees !".format(locale.currency(int(output),grouping=True)))
+                with rcol:
+                    st_lottie(tick_symbol,height=50,loop=False)
+                
         except:
             st.warning("Error Encountered!")
             
@@ -63,7 +70,7 @@ def load_lottieurl(url):
 
 
 if __name__ == "__main__":
-    st.set_page_config("Car Bechoo")
-    lottie_coding = load_lottieurl("https://assets10.lottiefiles.com/packages/lf20_ztrluajh.json")
-    
+    st.set_page_config("Car Bechoo",page_icon='🚗')
+    car_logo = load_lottieurl("https://assets10.lottiefiles.com/packages/lf20_ztrluajh.json")
+    tick_symbol =load_lottieurl("https://assets4.lottiefiles.com/packages/lf20_UbUJUM.json")
     main()
