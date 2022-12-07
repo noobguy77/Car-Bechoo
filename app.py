@@ -3,7 +3,6 @@ import requests
 from streamlit_lottie import st_lottie
 import locale
 import pickle
-locale.setlocale(locale.LC_MONETARY, 'en_IN')
 model = pickle.load(open('actual.pkl','rb'))
 
 
@@ -42,12 +41,11 @@ def main():
     Engine_Capacity = st.number_input("What is the engine capacity(in CC) ?",800,5000,step=100, key='capacity')
     Max_Power = st.number_input("What is the maximum power(in bhp) ?",37,step=10,key='max_power')
     Seats = st.number_input("How many seats ?",5,10,step=1,key='seats')
-
-
     if st.button("Estimate Price", key='predict'):
         try:
             Model = model  #get_model()
-            user_input = [[1249,Year,Kms_Driven,Fuel_Type,Seller_Type,Transmission_Type,Owner,Mileage,Engine_Capacity,Max_Power,Seats]]
+            user_input = [[
+                ,Year,Kms_Driven,Fuel_Type,Seller_Type,Transmission_Type,Owner,Mileage,Engine_Capacity,Max_Power,Seats]]
             prediction = Model.predict(user_input)
             output = round(prediction[0])
             if output<0:
