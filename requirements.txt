@@ -6,7 +6,7 @@ MarkupSafe
 Werkzeug
 numpy
 scipy
-scikit-learn==0.23.2
+scikit-learn
 matplotlib
 pandas
 flasgger

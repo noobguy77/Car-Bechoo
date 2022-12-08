@@ -3,7 +3,8 @@ import requests
 from streamlit_lottie import st_lottie
 import locale
 import pickle
-model = pickle.load(open('actual.pkl','rb'))
+locale.setlocale(locale.LC_MONETARY, 'en_IN')
+model = pickle.load(open('Pickle_File.pkl','rb'))
 
 
 def main():
@@ -47,6 +48,7 @@ def main():
             user_input = [[1249,Year,Kms_Driven,Fuel_Type,Seller_Type,Transmission_Type,Owner,Mileage,Engine_Capacity,Max_Power,Seats]]
             prediction = Model.predict(user_input)
             output = round(prediction[0])
+            print(output)
             if output<0:
                 st.warning("You will be not able to sell this car !")
             else:
