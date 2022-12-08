@@ -3,7 +3,7 @@ import requests
 from streamlit_lottie import st_lottie
 import locale
 import pickle
-locale.setlocale(locale.LC_MONETARY, 'en_IN')
+locale.setlocale(locale.LC_ALL, 'en_IN')
 model = pickle.load(open('Pickle_File.pkl','rb'))
 
 
