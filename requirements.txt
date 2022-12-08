@@ -13,3 +13,4 @@ flasgger
 seaborn
 streamlit
 streamlit-lottie
+language-pack-en-base
