@@ -44,8 +44,7 @@ def main():
     if st.button("Estimate Price", key='predict'):
         try:
             Model = model  #get_model()
-            user_input = [[
-                ,Year,Kms_Driven,Fuel_Type,Seller_Type,Transmission_Type,Owner,Mileage,Engine_Capacity,Max_Power,Seats]]
+            user_input = [[1249,Year,Kms_Driven,Fuel_Type,Seller_Type,Transmission_Type,Owner,Mileage,Engine_Capacity,Max_Power,Seats]]
             prediction = Model.predict(user_input)
             output = round(prediction[0])
             if output<0:
