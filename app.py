@@ -4,7 +4,7 @@ from streamlit_lottie import st_lottie
 import locale
 import pickle
 locale.setlocale(locale.LC_ALL, 'en_IN')
-model = pickle.load(open('Pickle_File.pkl','rb'))
+model = pickle.load(open('Pickle_File_Final.pkl','rb'))
 
 
 def main():
