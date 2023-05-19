@@ -3,8 +3,13 @@ import requests
 from streamlit_lottie import st_lottie
 import locale
 import pickle
-# locale.setlocale(locale.LC_ALL, 'en_IN')
-model = pickle.load(open('Pickle_File_Final.pkl','rb'))
+locale.setlocale(locale.LC_ALL, 'en_IN')
+model = pickle.load(open('./rf_pickle.pkl','rb'))
+
+def formatINR(number):
+    s, *d = str(number).partition(".")
+    r = ",".join([s[x-2:x] for x in range(-3, -len(s), -2)][::-1] + [s[-3:]])
+    return "".join([r] + d)
 
 
 def main():
@@ -41,20 +46,21 @@ def main():
     Mileage = st.number_input("The current mileage of the car(in km/L) ?",8,50,step=5, key='mileage')
     Engine_Capacity = st.number_input("What is the engine capacity(in CC) ?",800,5000,step=100, key='capacity')
     Max_Power = st.number_input("What is the maximum power(in bhp) ?",37,step=10,key='max_power')
-    Seats = st.number_input("How many seats ?",5,10,step=1,key='seats')
+    Seats = st.number_input("How many seats ?",2,10,step=1,key='seats')
     if st.button("Estimate Price", key='predict'):
         try:
             Model = model  #get_model()
-            user_input = [[1249,Year,Kms_Driven,Fuel_Type,Seller_Type,Transmission_Type,Owner,Mileage,Engine_Capacity,Max_Power,Seats]]
+            user_input = [[1249,Year,Kms_Driven,Transmission_Type,Mileage,Engine_Capacity,Max_Power,Seats]]
             prediction = Model.predict(user_input)
             output = round(prediction[0])
             print(output)
             if output<0:
                 st.warning("You will be not able to sell this car !")
             else:
+                print(output)
                 lcol,rcol = st.columns(2)
                 with lcol:
-                    st.header("You can sell the car for {} rupees !".format(locale.currency(int(output),grouping=True)))
+                    st.header("You can sell the car for {} rupees !".format(formatINR(output)))
                 with rcol:
                     st_lottie(tick_symbol,height=50,loop=False)
                 
